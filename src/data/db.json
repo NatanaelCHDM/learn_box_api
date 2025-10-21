@@ -1,0 +1,21 @@
+{
+  "users": [
+    {
+      "username": "patrick",
+      "password": "helloworld",
+      "levelAccess": "user"
+    }
+  ],
+
+
+
+
+  
+  "machines": [
+    {
+      "nameMachine": "titi",
+      "statut": "open",
+      "levelAccess": "admin"
+    }
+  ]
+}
