@@ -8,9 +8,13 @@ app.use(express.json());
 // ---- ROUTES API ----
 const usersRouter = require('./routes/users');
 const machinesRouter = require('./routes/machines');
+const authRouter = require('./routes/auth');
+
+
 
 app.use('/v1/users', usersRouter);
 app.use('/v1/machines', machinesRouter);
+app.use('/auth', authRouter);
 
 // ---- SERVEUR INTERFACE WEB (OPTIONNEL) ----
 // Sert index.html et autres fichiers statiques dans public/
@@ -25,6 +29,8 @@ app.get('/', (req, res) => {
 app.use((req, res) => {
   res.status(404).json({ error: 'Not found' });
 });
+
+
 
 module.exports = app;
 

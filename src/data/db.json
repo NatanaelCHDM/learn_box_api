@@ -4,13 +4,18 @@
       "username": "patrick",
       "password": "helloworld",
       "levelAccess": "user"
+    },
+    {
+      "username": "Orlean",
+      "passwordHash": "$2b$10$FIEqroFukFVONzg5shO5dueY8FehdnECfpxfoDkoWFc2RmB5EhW5K",
+      "levelAccess": "user"
+    },
+    {
+      "username": "Brooklyn",
+      "passwordHash": "$2b$10$ZSzcb0LZAyKx65IMvv.tke/t1L8fma0LaPFilZ7AfPhOR5FWHor82",
+      "levelAccess": "admin"
     }
   ],
-
-
-
-
-  
   "machines": [
     {
       "nameMachine": "titi",

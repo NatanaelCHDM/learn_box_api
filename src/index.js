@@ -1,10 +1,11 @@
+require('dotenv').config(); // charger les variables d'environnement
+
 const app = require('./app');
-const PORT = 3000;
+const PORT = process.env.PORT || 3000; // fallback si PORT non défini
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
-
 
 
 

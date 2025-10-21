@@ -7,10 +7,12 @@
 git clone https://github.com/NatanaelCHDM/learn_box_api.git
 ```
 
-2. Installer les dépendances avec npm
+2. Installer les dépendances
 ```bash
 cd learn_box_api
 npm install
+npm install bcrypt jsonwebtoken dotenv
+
 ```
 
 3. Créer un fichier .env à partir du .env.example et renseigner tes secrets.
