@@ -11,7 +11,6 @@ const machinesRouter = require('./routes/machines');
 const authRouter = require('./routes/auth');
 
 
-
 app.use('/v1/users', usersRouter);
 app.use('/v1/machines', machinesRouter);
 app.use('/auth', authRouter);
