@@ -25,7 +25,27 @@ exports.updateUser = (req, res) => {
   res.json(user);
 };
 
+
+exports.deleteUser = (req, res) => {
+  const userId = parseInt(req.params.id);
+  const userToDelete = users.find(u => u.id === userId);
+
+  if (!userToDelete) {
+    return res.status(404).json({ error: 'User not found' });
+  }
+
+  const adminName = req.user?.username || 'Unknown';
+
+  users = users.filter(u => u.id !== userId);
+
+  res.status(200).json({
+    message: `L'utilisateur "${userToDelete.username}" a été supprimé par "${adminName}".`
+  });
+};
+
+/*
 exports.deleteUser = (req, res) => {
   users = users.filter(u => u.id !== parseInt(req.params.id));
   res.status(204).end();
 };
+*/

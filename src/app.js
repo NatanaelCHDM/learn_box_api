@@ -5,6 +5,46 @@ const app = express();
 // ---- MIDDLEWARES ----
 app.use(express.json());
 
+// ---- SWAGGER ----
+const { swaggerUi, swaggerSpec } = require('./swagger/swagger');
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+// ---- ROUTES API ----
+const usersRouter = require('./routes/users');
+const machinesRouter = require('./routes/machines');
+const authRouter = require('./routes/auth');
+
+app.use('/v1/users', usersRouter);
+app.use('/v1/machines', machinesRouter);
+app.use('/auth', authRouter);
+
+// ---- SERVEUR INTERFACE WEB (OPTIONNEL) ----
+app.use(express.static(path.join(__dirname, '../public')));
+
+// Route racine
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/index.html'));
+});
+
+// ---- MIDDLEWARE NOT FOUND ----
+app.use((req, res) => {
+  res.status(404).json({ error: 'Not found' });
+});
+
+module.exports = app;
+
+
+
+
+
+/*
+const express = require('express');
+const path = require('path');
+const app = express();
+
+// ---- MIDDLEWARES ----
+app.use(express.json());
+
 // ---- ROUTES API ----
 const usersRouter = require('./routes/users');
 const machinesRouter = require('./routes/machines');
@@ -32,9 +72,7 @@ app.use((req, res) => {
 
 
 module.exports = app;
-
-
-
+*/
 
 /*
 const express = require('express');
