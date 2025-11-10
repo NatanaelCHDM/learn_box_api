@@ -1,7 +1,3 @@
-// ============================
-// 📘 Configuration Swagger
-// ============================
-
 // Import du module swagger-jsdoc : permet de générer automatiquement
 // la documentation OpenAPI à partir des commentaires JSDoc dans ton code.
 const swaggerJSDoc = require('swagger-jsdoc');

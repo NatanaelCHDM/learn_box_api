@@ -1,6 +1,3 @@
-// =========================
-// 👤 Route : users.js
-// =========================
 const express = require('express');
 const router = express.Router();
 const authenticate = require('../middlewares/authenticate');
@@ -17,7 +14,7 @@ const usersController = require('../controllers/usersController');
 
 
 // -------------------------------------------------------
-// 🟢 ROUTE : POST /users — Création d’un utilisateur
+// ROUTE : POST /users — Création d’un utilisateur
 // -------------------------------------------------------
 /**
  * @swagger
@@ -54,7 +51,7 @@ const usersController = require('../controllers/usersController');
 router.post('/', usersController.createUser);
 
 // -------------------------------------------------------
-// 🟢 ROUTE : GET /users/{id} — Lecture d’un utilisateur
+// ROUTE : GET /users/{id} — Lecture d’un utilisateur
 // -------------------------------------------------------
 /**
  * @swagger
@@ -82,7 +79,7 @@ router.post('/', usersController.createUser);
 router.get('/:id', authenticate, usersController.getUser);
 
 // -------------------------------------------------------
-// 🟢 ROUTE : PATCH /users/{id} — Modification d’un utilisateur
+// ROUTE : PATCH /users/{id} — Modification d’un utilisateur
 // -------------------------------------------------------
 /**
  * @swagger
@@ -127,7 +124,7 @@ router.get('/:id', authenticate, usersController.getUser);
 router.patch('/:id', authenticate, usersController.updateUser);
 
 // -------------------------------------------------------
-// 🟢 ROUTE : DELETE /users/{id} — Suppression d’un utilisateur
+// ROUTE : DELETE /users/{id} — Suppression d’un utilisateur
 // (réservée aux administrateurs)
 // -------------------------------------------------------
 /**

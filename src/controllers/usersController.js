@@ -5,7 +5,7 @@ let users = [];
 let nextId = 1;
 
 // ========================
-// 🔹 CREATE USER
+// CREATE USER
 // ========================
 exports.createUser = (req, res) => {
   // Récupère les données envoyées dans la requête
@@ -29,7 +29,7 @@ exports.createUser = (req, res) => {
 };
 
 // ========================
-// 🔹 READ USER
+// READ USER
 // ========================
 exports.getUser = (req, res) => {
   // Recherche un utilisateur par ID dans le tableau
@@ -46,7 +46,7 @@ exports.getUser = (req, res) => {
 };
 
 // ========================
-// 🔹 UPDATE USER
+// UPDATE USER
 // ========================
 exports.updateUser = (req, res) => {
   // Recherche de l’utilisateur à modifier
@@ -63,7 +63,7 @@ exports.updateUser = (req, res) => {
 };
 
 // ========================
-// 🔹 DELETE USER
+// DELETE USER
 // ========================
 exports.deleteUser = (req, res) => {
   // Convertit l’ID reçu dans la requête en nombre

@@ -1,6 +1,3 @@
-// =========================
-// ⚙️ Route : machines.js
-// =========================
 const express = require('express');
 const router = express.Router();
 const machinesController = require('../controllers/machinesController');
@@ -14,7 +11,7 @@ const machinesController = require('../controllers/machinesController');
  */
 
 // -------------------------------------------------------
-// 🟢 ROUTE : POST /machines — Création d’une machine
+// ROUTE : POST /machines — Création d’une machine
 // -------------------------------------------------------
 /**
  * @swagger
@@ -53,7 +50,7 @@ const machinesController = require('../controllers/machinesController');
 router.post('/', machinesController.createMachine);
 
 // -------------------------------------------------------
-// 🟢 ROUTE : GET /machines/{id} — Lecture d’une machine
+// ROUTE : GET /machines/{id} — Lecture d’une machine
 // -------------------------------------------------------
 /**
  * @swagger
@@ -77,7 +74,7 @@ router.post('/', machinesController.createMachine);
 router.get('/:id', machinesController.getMachine);
 
 // -------------------------------------------------------
-// 🟢 ROUTE : PATCH /machines/{id} — Mise à jour d’une machine
+// ROUTE : PATCH /machines/{id} — Mise à jour d’une machine
 // -------------------------------------------------------
 /**
  * @swagger
@@ -119,7 +116,7 @@ router.get('/:id', machinesController.getMachine);
 router.patch('/:id', machinesController.updateMachine);
 
 // -------------------------------------------------------
-// 🟢 ROUTE : DELETE /machines/{id} — Suppression d’une machine
+// ROUTE : DELETE /machines/{id} — Suppression d’une machine
 // -------------------------------------------------------
 /**
  * @swagger
@@ -143,7 +140,7 @@ router.patch('/:id', machinesController.updateMachine);
 router.delete('/:id', machinesController.deleteMachine);
 
 // -------------------------------------------------------
-// 🟢 ROUTE : POST /machines/{id}/access — Vérifie l’accès
+// ROUTE : POST /machines/{id}/access — Vérifie l’accès
 // -------------------------------------------------------
 /**
  * @swagger

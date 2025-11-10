@@ -1,7 +1,3 @@
-// ==============================
-// 🔐 Middleware : authenticate.js
-// ==============================
-
 // Import du module jsonwebtoken pour vérifier et décoder les tokens JWT
 const jwt = require('jsonwebtoken');
 

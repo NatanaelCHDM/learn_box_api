@@ -1,4 +1,3 @@
-
 // Tableau temporaire pour stocker les machines (en mémoire, sans base de données)
 let machines = [];
 
@@ -6,7 +5,7 @@ let machines = [];
 let nextId = 1;
 
 // ========================
-// 🔹 CREATE MACHINE
+// CREATE MACHINE
 // ========================
 exports.createMachine = (req, res) => {
   // Extraction des propriétés envoyées dans le corps de la requête
@@ -30,7 +29,7 @@ exports.createMachine = (req, res) => {
 };
 
 // ========================
-// 🔹 READ MACHINE
+// READ MACHINE
 // ========================
 exports.getMachine = (req, res) => {
   // Recherche une machine dont l'ID correspond au paramètre d'URL
@@ -44,7 +43,7 @@ exports.getMachine = (req, res) => {
 };
 
 // ========================
-// 🔹 UPDATE MACHINE
+// UPDATE MACHINE
 // ========================
 exports.updateMachine = (req, res) => {
   // Recherche la machine à mettre à jour
@@ -61,7 +60,7 @@ exports.updateMachine = (req, res) => {
 };
 
 // ========================
-// 🔹 DELETE MACHINE
+// DELETE MACHINE
 // ========================
 exports.deleteMachine = (req, res) => {
   // Supprime la machine du tableau via un filtre
@@ -72,7 +71,7 @@ exports.deleteMachine = (req, res) => {
 };
 
 // ========================
-// 🔹 ACCESS MACHINE
+// ACCESS MACHINE
 // ========================
 // Vérifie si un utilisateur peut accéder à une machine selon son niveau d’accès
 exports.accessMachine = (req, res) => {

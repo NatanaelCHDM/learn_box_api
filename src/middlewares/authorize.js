@@ -1,7 +1,3 @@
-// ============================
-// 🔒 Middleware : authorize.js
-// ============================
-
 // Fonction middleware qui vérifie le rôle ou le niveau d’accès de l’utilisateur
 function authorize(requiredRole) {
   // Retourne une fonction middleware personnalisée selon le rôle requis

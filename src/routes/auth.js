@@ -1,7 +1,3 @@
-// =======================
-// 🔑 Route : Auth.js
-// =======================
-
 // Charge les variables d’environnement (.env)
 require('dotenv').config();
 
@@ -36,7 +32,7 @@ const saltRounds = parseInt(process.env.PASSWORD_SALT) || 10;
  */
 
 // -------------------------------------------------------
-// 🟢 ROUTE : POST /auth/register — Inscription utilisateur
+// ROUTE : POST /auth/register — Inscription utilisateur
 // -------------------------------------------------------
 
 /**
@@ -101,7 +97,7 @@ router.post('/register', async (req, res) => {
 });
 
 // -------------------------------------------------------
-// 🟢 ROUTE : POST /auth/login — Connexion utilisateur
+// ROUTE : POST /auth/login — Connexion utilisateur
 // -------------------------------------------------------
 
 /**
@@ -163,7 +159,7 @@ router.post('/login', async (req, res) => {
 
 
 // -------------------------------------------------------
-// 🟢 ROUTE : POST /auth/refresh — Renouveler le token
+// ROUTE : POST /auth/refresh — Renouveler le token
 // -------------------------------------------------------
 /**
  * @swagger
@@ -215,7 +211,7 @@ router.post('/refresh', (req, res) => {
 });
 
 // -------------------------------------------------------
-// 🟢 ROUTE : POST /auth/logout — Déconnexion
+// ROUTE : POST /auth/logout — Déconnexion
 // -------------------------------------------------------
 
 /**

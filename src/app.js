@@ -1,7 +1,3 @@
-// ============================
-// 🚀 Fichier principal de l’app Express
-// ============================
-
 // Import du framework Express
 const express = require('express');
 

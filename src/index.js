@@ -1,7 +1,3 @@
-// ============================
-// 🟢 Point d’entrée du serveur
-// ============================
-
 // Charge les variables d’environnement définies dans le fichier .env
 require('dotenv').config(); // charger les variables d'environnement
 
