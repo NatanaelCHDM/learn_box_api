@@ -1,9 +1,13 @@
+// =========================
+// 👤 Route : users.js
+// =========================
 const express = require('express');
 const router = express.Router();
 const authenticate = require('../middlewares/authenticate');
 const authorize = require('../middlewares/authorize');
 const usersController = require('../controllers/usersController');
 
+// Documentation Swagger : groupe "Users"
 /**
  * @swagger
  * tags:
@@ -11,6 +15,10 @@ const usersController = require('../controllers/usersController');
  *   description: Gestion des utilisateurs (CRUD)
  */
 
+
+// -------------------------------------------------------
+// 🟢 ROUTE : POST /users — Création d’un utilisateur
+// -------------------------------------------------------
 /**
  * @swagger
  * /users:
@@ -45,6 +53,9 @@ const usersController = require('../controllers/usersController');
  */
 router.post('/', usersController.createUser);
 
+// -------------------------------------------------------
+// 🟢 ROUTE : GET /users/{id} — Lecture d’un utilisateur
+// -------------------------------------------------------
 /**
  * @swagger
  * /users/{id}:
@@ -70,6 +81,9 @@ router.post('/', usersController.createUser);
  */
 router.get('/:id', authenticate, usersController.getUser);
 
+// -------------------------------------------------------
+// 🟢 ROUTE : PATCH /users/{id} — Modification d’un utilisateur
+// -------------------------------------------------------
 /**
  * @swagger
  * /users/{id}:
@@ -112,6 +126,10 @@ router.get('/:id', authenticate, usersController.getUser);
  */
 router.patch('/:id', authenticate, usersController.updateUser);
 
+// -------------------------------------------------------
+// 🟢 ROUTE : DELETE /users/{id} — Suppression d’un utilisateur
+// (réservée aux administrateurs)
+// -------------------------------------------------------
 /**
  * @swagger
  * /users/{id}:
@@ -139,120 +157,5 @@ router.patch('/:id', authenticate, usersController.updateUser);
  */
 router.delete('/:id', authenticate, authorize('admin'), usersController.deleteUser);
 
+// Exporte le router pour l’intégrer dans app.js
 module.exports = router;
-
-
-
-
-
-
-/*
-const express = require('express');
-const router = express.Router();
-const authenticate = require('../middlewares/authenticate');
-const authorize = require('../middlewares/authorize');
-const usersController = require('../controllers/usersController');
-
-// ------------------ CREATE ------------------
-router.post('/', usersController.createUser);
-
-// ------------------ READ ------------------
-router.get('/:id', authenticate, usersController.getUser);
-
-// ------------------ UPDATE ------------------
-router.patch('/:id', authenticate, usersController.updateUser);
-
-// ------------------ DELETE ------------------
-// Seul un admin peut supprimer un utilisateur
-router.delete('/:id', authenticate, authorize('admin'), usersController.deleteUser);
-
-module.exports = router;
-*/
-
-
-
-
-
-
-/*
-const express = require('express');
-const router = express.Router();
-const authenticate = require('../middlewares/authenticate');
-const authorize = require('../middlewares/authorize');
-
-// Stockage temporaire (plus tard base de données)
-let users = [];
-let nextId = 1;
-
-// ------------------ CREATE ------------------
-router.post('/', (req, res) => {
-  const { username, password, levelAccess = 'user' } = req.body;
-  if (!username || !password) return res.status(400).json({ error: 'username and password required' });
-
-  const newUser = { id: nextId++, username, password, levelAccess };
-  users.push(newUser);
-  res.status(201).location(`/v1/users/${newUser.id}`).json(newUser);
-});
-
-// ------------------ READ ------------------
-router.get('/:id', authenticate, (req, res) => {
-  const user = users.find(u => u.id === parseInt(req.params.id));
-  if (!user) return res.status(404).json({ error: 'user not found' });
-
-  const { password, ...safeUser } = user;
-  res.json(safeUser);
-});
-
-// ------------------ UPDATE ------------------
-router.patch('/:id', authenticate, (req, res) => {
-  const user = users.find(u => u.id === parseInt(req.params.id));
-  if (!user) return res.status(404).json({ error: 'user not found' });
-
-  Object.assign(user, req.body);
-  res.json(user);
-});
-
-// ------------------ DELETE ------------------
-router.delete('/:id', authenticate, (req, res) => {
-  users = users.filter(u => u.id !== parseInt(req.params.id));
-  res.status(204).end();
-});
-
-module.exports = router;
-*/
-
-
-
-
-/*
-const express = require('express');
-const router = express.Router();
-const authenticate = require('../middlewares/authenticate'); // <-- ici
-
-// Exemple de route protégée :
-router.get('/', authenticate, (req, res) => {
-  res.json({ 
-    message: 'Route protégée — accès autorisé',
-    user: req.user 
-  });
-});
-
-module.exports = router;
-*/
-
-
-
-
-
-/*
-const express = require('express');
-const router = express.Router();
-const usersController = require('../controllers/usersController');
-
-router.post('/', usersController.createUser);
-router.get('/:id', usersController.getUser);
-router.patch('/:id', usersController.updateUser);
-router.delete('/:id', usersController.deleteUser);
-
-module.exports = router;
-*/

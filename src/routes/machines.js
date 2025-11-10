@@ -1,7 +1,11 @@
+// =========================
+// ⚙️ Route : machines.js
+// =========================
 const express = require('express');
 const router = express.Router();
 const machinesController = require('../controllers/machinesController');
 
+// Documentation Swagger : groupe "Machines"
 /**
  * @swagger
  * tags:
@@ -9,6 +13,9 @@ const machinesController = require('../controllers/machinesController');
  *   description: Gestion des machines et accès utilisateurs
  */
 
+// -------------------------------------------------------
+// 🟢 ROUTE : POST /machines — Création d’une machine
+// -------------------------------------------------------
 /**
  * @swagger
  * /machines:
@@ -45,6 +52,9 @@ const machinesController = require('../controllers/machinesController');
  */
 router.post('/', machinesController.createMachine);
 
+// -------------------------------------------------------
+// 🟢 ROUTE : GET /machines/{id} — Lecture d’une machine
+// -------------------------------------------------------
 /**
  * @swagger
  * /machines/{id}:
@@ -66,6 +76,9 @@ router.post('/', machinesController.createMachine);
  */
 router.get('/:id', machinesController.getMachine);
 
+// -------------------------------------------------------
+// 🟢 ROUTE : PATCH /machines/{id} — Mise à jour d’une machine
+// -------------------------------------------------------
 /**
  * @swagger
  * /machines/{id}:
@@ -105,6 +118,9 @@ router.get('/:id', machinesController.getMachine);
  */
 router.patch('/:id', machinesController.updateMachine);
 
+// -------------------------------------------------------
+// 🟢 ROUTE : DELETE /machines/{id} — Suppression d’une machine
+// -------------------------------------------------------
 /**
  * @swagger
  * /machines/{id}:
@@ -126,6 +142,9 @@ router.patch('/:id', machinesController.updateMachine);
  */
 router.delete('/:id', machinesController.deleteMachine);
 
+// -------------------------------------------------------
+// 🟢 ROUTE : POST /machines/{id}/access — Vérifie l’accès
+// -------------------------------------------------------
 /**
  * @swagger
  * /machines/{id}/access:
@@ -162,25 +181,5 @@ router.delete('/:id', machinesController.deleteMachine);
  */
 router.post('/:id/access', machinesController.accessMachine);
 
+// Exporte le router
 module.exports = router;
-
-
-
-
-
-/*
-const express = require('express');
-const router = express.Router();
-const machinesController = require('../controllers/machinesController');
-
-// CRUD Machines
-router.post('/', machinesController.createMachine);
-router.get('/:id', machinesController.getMachine);
-router.patch('/:id', machinesController.updateMachine);
-router.delete('/:id', machinesController.deleteMachine);
-
-// Endpoint spécifique : accès utilisateur à la machine
-router.post('/:id/access', machinesController.accessMachine);
-
-module.exports = router;
-*/
