@@ -19,6 +19,8 @@ cd learn_box_api
 npm install
 npm install bcrypt jsonwebtoken dotenv
 npm install --save-dev jest supertest
+npm install axios
+
 ```
 
 3. **Créer le fichier `.env` à partir de `.env.example` et renseigner vos secrets :**

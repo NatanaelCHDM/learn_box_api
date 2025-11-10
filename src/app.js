@@ -28,10 +28,19 @@ const usersRouter = require('./routes/users');
 const machinesRouter = require('./routes/machines');
 const authRouter = require('./routes/auth');
 
+// ---- NOUVELLE ROUTE API TIERCES ----
+
+// Importation du router pour l’API adresses
+const adressesRouter = require('./routes/adresses');
+
 // Montage des routes avec un préfixe commun pour versionner l’API
 app.use('/v1/users', usersRouter);
 app.use('/v1/machines', machinesRouter);
 app.use('/auth', authRouter);
+
+// Montage du router adresses
+// Toutes les requêtes vers /v1/adresses seront gérées par adressesRouter
+app.use('/v1/adresses', adressesRouter);
 
 // ---- SERVEUR INTERFACE WEB (OPTIONNEL) ----
 
