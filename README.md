@@ -103,3 +103,11 @@ git push
 git remote add origin <url-du-repo>
 git push -u origin main
 ```
+
+
+## Licence
+
+Ce projet est distribué sous la licence **MIT**.  
+Voir le fichier [LICENSE](./LICENSE) pour plus de détails.
+
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
