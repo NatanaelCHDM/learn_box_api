@@ -1,27 +1,167 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hello World</title>
+  <title>Découvrir les API</title>
   <style>
-    body {
+    :root {
+      --primary: #4f46e5;
+      --secondary: #6366f1;
+      --bg: #f9fafb;
+      --text: #111827;
+    }
+    * {
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+      font-family: 'Poppins', sans-serif;
       margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: white;
-      font-family: Arial, sans-serif;
+      padding: 0;
     }
-    h1 {
-      font-size: 4rem;
-      color: aqua;
-      text-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
     }
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      text-align: center;
+      padding: 100px 20px;
+    }
+    header h1 {
+      font-size: 3rem;
+      animation: fadeInDown 1s ease;
+    }
+    header p {
+      font-size: 1.2rem;
+      margin-top: 10px;
+      animation: fadeIn 2s ease;
+    }
+    section {
+      padding: 80px 10%;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s ease;
+    }
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    section h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: var(--primary);
+    }
+    section p {
+      line-height: 1.8;
+      font-size: 1.1rem;
+      color: #374151;
+    }
+    .highlight {
+      background-color: #eef2ff;
+      border-left: 4px solid var(--primary);
+      padding: 15px 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+    footer {
+      text-align: center;
+      padding: 40px;
+      background-color: #111827;
+      color: #e5e7eb;
+      font-size: 0.9rem;
+    }
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    /* Bouton retour en haut */
+    #topBtn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 14px;
+      border-radius: 50%;
+      font-size: 18px;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    #topBtn.show { opacity: 1; }
   </style>
 </head>
 <body>
-  <h1>Hello World!</h1>
+
+  <header>
+    <h1>🌐 Comprendre les API</h1>
+    <p>Un site vitrine interactif pour découvrir le rôle et le fonctionnement des API modernes.</p>
+  </header>
+
+  <section id="intro">
+    <h2>Qu'est-ce qu'une API ?</h2>
+    <p>Une <strong>API</strong> (Application Programming Interface) est une interface qui permet à deux applications de communiquer entre elles. 
+    Elle agit comme un pont, facilitant l’échange de données sans que l’utilisateur ait à comprendre les détails internes de chaque système.</p>
+
+    <div class="highlight">
+      <p>👉 Exemple : lorsque tu te connectes à un site via ton compte Google, c’est une API qui s’occupe de la communication entre le site et Google.</p>
+    </div>
+  </section>
+
+  <section id="fonctionnement">
+    <h2>Comment ça fonctionne ?</h2>
+    <p>Une API définit un ensemble de <strong>règles</strong> et de <strong>protocoles</strong> pour les requêtes et les réponses. 
+    Les développeurs utilisent ces règles pour interagir avec une application externe, souvent via le web grâce au protocole HTTP.</p>
+    <div class="highlight">
+      <p>Les principales opérations d'une API REST sont connues sous le nom de <strong>CRUD</strong> : Create, Read, Update, Delete.</p>
+    </div>
+  </section>
+
+  <section id="utilite">
+    <h2>Pourquoi utiliser une API ?</h2>
+    <p>Les API rendent les applications plus <strong>flexibles</strong> et <strong>modulaires</strong>. 
+    Elles permettent de réutiliser des services existants, d’accélérer le développement, et d’intégrer facilement des fonctionnalités externes.</p>
+    <p>Exemples : services de paiement (Stripe), cartographie (Google Maps), météo, ou authentification (OAuth).</p>
+  </section>
+
+  <section id="avenir">
+    <h2>Les API dans le monde moderne</h2>
+    <p>Les API sont au cœur du web moderne. Elles alimentent les applications mobiles, les objets connectés, les sites web dynamiques, 
+    et même l’intelligence artificielle. Leur usage ne cesse de croître avec la montée des architectures “microservices”.</p>
+  </section>
+
+  <footer>
+    © 2025 — Site vitrine documentaire sur les API (avec un peu de JavaScript).
+  </footer>
+
+  <button id="topBtn">↑</button>
+
+  <script>
+    // Apparition des sections au scroll
+    const sections = document.querySelectorAll('section');
+    const topBtn = document.getElementById('topBtn');
+
+    window.addEventListener('scroll', () => {
+      sections.forEach(sec => {
+        const rect = sec.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 100) {
+          sec.classList.add('visible');
+        }
+      });
+      // Bouton retour en haut
+      if (window.scrollY > 200) topBtn.classList.add('show');
+      else topBtn.classList.remove('show');
+    });
+
+    topBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  </script>
+
 </body>
 </html>

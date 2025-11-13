@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for middlewares/authorize.js</title>
+    <title>Code coverage report for services/adresseService.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../prettify.css" />
     <link rel="stylesheet" href="../base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../index.html">All files</a> / <a href="index.html">middlewares</a> authorize.js</h1>
+        <h1><a href="../index.html">All files</a> / <a href="index.html">services</a> adresseService.js</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>7/7</span>
+                <span class='fraction'>6/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>6/6</span>
+                <span class='fraction'>1/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>7/7</span>
+                <span class='fraction'>6/8</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -85,51 +85,69 @@
 <a name='L20'></a><a href='#L20'>20</a>
 <a name='L21'></a><a href='#L21'>21</a>
 <a name='L22'></a><a href='#L22'>22</a>
-<a name='L23'></a><a href='#L23'>23</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">// Fonction middleware qui vérifie le rôle ou le niveau d’accès de l’utilisateur
-function authorize(requiredRole) {
-  // Retourne une fonction middleware personnalisée selon le rôle requis
-  return (req, res, next) =&gt; {
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// ==============================
+// 🔹 Service pour l'API Adresse
+// ==============================
 &nbsp;
-    // Vérifie que l’utilisateur est bien authentifié et possède une propriété "levelAccess"
-    if (!req.user || !req.user.levelAccess) {
-      return res.status(401).json({ error: 'Utilisateur non authentifié' });
-    }
+// On utilise axios pour faire des requêtes HTTP
+const axios = require('axios');
 &nbsp;
-    // Compare le rôle requis avec celui de l’utilisateur
-    // Si le rôle est insuffisant → accès refusé
-    if (req.user.levelAccess !== requiredRole) {
-      return res.status(403).json({ error: 'Accès refusé — rôle insuffisant' });
-    }
+// Fonction qui interroge l'API gouvernementale pour chercher des adresses
+async function searchAdresse(query) {
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (!query) <span class="cstat-no" title="statement not covered" >throw new Error('Query is required'); </span>// Vérifie que la requête est non vide
 &nbsp;
-    // Si tout est bon → passe au middleware suivant ou au contrôleur
-    next();
-  };
+  try {
+    // Appel à l'API officielle du gouvernement français
+    const response = await axios.get('https://api-adresse.data.gouv.fr/search/', {
+      params: { q: query, limit: 5 } // On limite à 5 résultats pour ne pas surcharger
+    });
+&nbsp;
+    // Retourne les résultats bruts (ou tu peux filtrer les champs si besoin)
+    return response.data.features;
+  } catch (err) {
+    // En cas d'erreur HTTP ou réseau
+<span class="cstat-no" title="statement not covered" >    console.error('Erreur API Adresse :', err.message);</span>
+<span class="cstat-no" title="statement not covered" >    throw err;</span>
+  }
 }
 &nbsp;
-// Exporte la fonction pour l’utiliser dans les routes nécessitant un rôle spécifique
-module.exports = authorize;</pre></td></tr></table></pre>
+// On exporte la fonction pour pouvoir l'utiliser dans les routes
+module.exports = { searchAdresse };
+&nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->

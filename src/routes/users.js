@@ -9,19 +9,21 @@ const usersController = require('../controllers/usersController');
  * @swagger
  * tags:
  *   name: Users
- *   description: Gestion des utilisateurs (CRUD)
+ *   description: Gestion des utilisateurs
  */
 
 
 // -------------------------------------------------------
-// ROUTE : POST /users — Création d’un utilisateur
+// ROUTE : POST /v1/users — Création d’un utilisateur
 // -------------------------------------------------------
 /**
  * @swagger
- * /users:
+ * /v1/users:
  *   post:
  *     summary: Crée un nouvel utilisateur
  *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -32,6 +34,9 @@ const usersController = require('../controllers/usersController');
  *               - username
  *               - password
  *             properties:
+ *               id:
+ *                 type: integer
+ *                 example: 7
  *               username:
  *                 type: string
  *                 example: johndoe
@@ -48,19 +53,19 @@ const usersController = require('../controllers/usersController');
  *       400:
  *         description: Données invalides.
  */
-router.post('/', usersController.createUser);
+router.post('/', authenticate, usersController.createUser);
 
 // -------------------------------------------------------
-// ROUTE : GET /users/{id} — Lecture d’un utilisateur
+// ROUTE : GET /v1/users/{id} — Lecture d’un utilisateur
 // -------------------------------------------------------
 /**
  * @swagger
- * /users/{id}:
+ * /v1/users/{id}:
  *   get:
  *     summary: Récupère les informations d’un utilisateur
  *     tags: [Users]
  *     security:
- *       - bearerAuth: []        # <-- indique que la route nécessite un JWT
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -79,11 +84,11 @@ router.post('/', usersController.createUser);
 router.get('/:id', authenticate, usersController.getUser);
 
 // -------------------------------------------------------
-// ROUTE : PATCH /users/{id} — Modification d’un utilisateur
+// ROUTE : PATCH /v1/users/{id} — Modification d’un utilisateur
 // -------------------------------------------------------
 /**
  * @swagger
- * /users/{id}:
+ * /v1/users/{id}:
  *   patch:
  *     summary: Met à jour un utilisateur
  *     tags: [Users]
@@ -124,12 +129,12 @@ router.get('/:id', authenticate, usersController.getUser);
 router.patch('/:id', authenticate, usersController.updateUser);
 
 // -------------------------------------------------------
-// ROUTE : DELETE /users/{id} — Suppression d’un utilisateur
+// ROUTE : DELETE /v1/users/{id} — Suppression d’un utilisateur
 // (réservée aux administrateurs)
 // -------------------------------------------------------
 /**
  * @swagger
- * /users/{id}:
+ * /v1/users/{id}:
  *   delete:
  *     summary: Supprime un utilisateur (réservé aux administrateurs)
  *     tags: [Users]

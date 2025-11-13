@@ -1,7 +1,3 @@
-// ==============================
-// 🔹 Service pour l'API Adresse
-// ==============================
-
 // On utilise axios pour faire des requêtes HTTP
 const axios = require('axios');
 

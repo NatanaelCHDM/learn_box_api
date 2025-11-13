@@ -11,11 +11,11 @@ const machinesController = require('../controllers/machinesController');
  */
 
 // -------------------------------------------------------
-// ROUTE : POST /machines — Création d’une machine
+// ROUTE : POST /v1/machines — Création d’une machine
 // -------------------------------------------------------
 /**
  * @swagger
- * /machines:
+ * /v1/machines:
  *   post:
  *     summary: Crée une nouvelle machine
  *     tags: [Machines]
@@ -50,11 +50,11 @@ const machinesController = require('../controllers/machinesController');
 router.post('/', machinesController.createMachine);
 
 // -------------------------------------------------------
-// ROUTE : GET /machines/{id} — Lecture d’une machine
+// ROUTE : GET /v1/machines/{id} — Lecture d’une machine
 // -------------------------------------------------------
 /**
  * @swagger
- * /machines/{id}:
+ * /v1/machines/{id}:
  *   get:
  *     summary: Récupère les informations d’une machine
  *     tags: [Machines]
@@ -74,11 +74,11 @@ router.post('/', machinesController.createMachine);
 router.get('/:id', machinesController.getMachine);
 
 // -------------------------------------------------------
-// ROUTE : PATCH /machines/{id} — Mise à jour d’une machine
+// ROUTE : PATCH /v1/machines/{id} — Mise à jour d’une machine
 // -------------------------------------------------------
 /**
  * @swagger
- * /machines/{id}:
+ * /v1/machines/{id}:
  *   patch:
  *     summary: Met à jour les informations d’une machine
  *     tags: [Machines]
@@ -116,11 +116,11 @@ router.get('/:id', machinesController.getMachine);
 router.patch('/:id', machinesController.updateMachine);
 
 // -------------------------------------------------------
-// ROUTE : DELETE /machines/{id} — Suppression d’une machine
+// ROUTE : DELETE /v1/machines/{id} — Suppression d’une machine
 // -------------------------------------------------------
 /**
  * @swagger
- * /machines/{id}:
+ * /v1/machines/{id}:
  *   delete:
  *     summary: Supprime une machine du système
  *     tags: [Machines]
@@ -140,11 +140,11 @@ router.patch('/:id', machinesController.updateMachine);
 router.delete('/:id', machinesController.deleteMachine);
 
 // -------------------------------------------------------
-// ROUTE : POST /machines/{id}/access — Vérifie l’accès
+// ROUTE : POST /v1/machines/{id}/access — Vérifie l’accès
 // -------------------------------------------------------
 /**
  * @swagger
- * /machines/{id}/access:
+ * /v1/machines/{id}/access:
  *   post:
  *     summary: Vérifie l’accès d’un utilisateur à une machine
  *     tags: [Machines]

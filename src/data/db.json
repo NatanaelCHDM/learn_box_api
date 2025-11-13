@@ -1,18 +1,39 @@
 {
   "users": [
     {
+      "id": 1,
+      "username": "natanael",
+      "password": "$2b$10$WI95yHF5psY6IBIeyJ88J.qJcFSpMHBChpUB00k/NL28KhNc/u4au",
+      "levelAccess": "admin"
+    },
+    {
+      "id": 2,
+      "username": "userdemo",
+      "password": "demo123",
+      "levelAccess": "user"
+    },
+    {
+      "id": 3,
       "username": "patrick",
       "password": "helloworld",
       "levelAccess": "user"
     },
     {
+      "id": 4,
       "username": "Orlean",
       "passwordHash": "$2b$10$FIEqroFukFVONzg5shO5dueY8FehdnECfpxfoDkoWFc2RmB5EhW5K",
       "levelAccess": "user"
     },
     {
+      "id": 5,
       "username": "Brooklyn",
       "passwordHash": "$2b$10$ZSzcb0LZAyKx65IMvv.tke/t1L8fma0LaPFilZ7AfPhOR5FWHor82",
+      "levelAccess": "admin"
+    },
+    {
+      "id": 6,
+      "username": "toto",
+      "password": "$2b$10$BY1u0tWQTH5F59GcPMWBdO6MCXl3ziTNKYrV.QAsKC7sc8A3KiENq",
       "levelAccess": "admin"
     }
   ],
@@ -24,5 +45,3 @@
     }
   ]
 }
-
-liveserver
