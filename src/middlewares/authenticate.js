@@ -9,7 +9,7 @@ function authenticate(req, res, next) {
 
   // Si le header est absent → l'utilisateur n'est pas authentifié
   if (!authHeader) {
-    return res.status(401).json({ error: 'Authorization header missing' });
+    return res.status(401).json({ error: "Accès refusé : vous devez vous connecter à l'aide d'un token" });
   }
 
   // Le format attendu du header est "Bearer <token>"

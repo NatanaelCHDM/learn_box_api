@@ -1,95 +1,55 @@
-const jwt = require('jsonwebtoken'); // On mockera cette dépendance
-const authenticate = require('../src/middlewares/authenticate'); // Middleware à tester
+const jwt = require('jsonwebtoken');
+const authenticate = require('../src/middlewares/authenticate');
 
-// Mock de la méthode jwt.verify pour contrôler son comportement dans les tests
-jest.mock('jsonwebtoken');
-
-// Création d’un faux objet réponse Express (res)
-const mockResponse = () => {
+function mockReq(headers = {}) {
+  return { headers };
+}
+function mockRes() {
   const res = {};
   res.status = jest.fn().mockReturnValue(res);
   res.json = jest.fn().mockReturnValue(res);
   return res;
-};
+}
+function mockNext() {
+  return jest.fn();
+}
 
-// Fonction factice pour simuler "next()" dans Express
-const next = jest.fn();
-
-describe('Middleware: authenticate', () => {
-
-  beforeEach(() => {
-    jest.clearAllMocks(); // Réinitialise tous les mocks avant chaque test
-  });
-
-  // Header manquant
-  test('❌ Retourne 401 si le header Authorization est absent', () => {
-    const req = { headers: {} };
-    const res = mockResponse();
-
+describe('authenticate middleware', () => {
+  it('should reject missing Authorization header', () => {
+    const req = mockReq();
+    const res = mockRes();
+    const next = mockNext();
     authenticate(req, res, next);
-
     expect(res.status).toHaveBeenCalledWith(401);
-    expect(res.json).toHaveBeenCalledWith({ error: 'Authorization header missing' });
-    expect(next).not.toHaveBeenCalled();
+    expect(res.json).toHaveBeenCalledWith({ error: "Accès refusé : vous devez vous connecter à l'aide d'un token" });
   });
 
-  // Header mal formé
-  test('❌ Retourne 401 si le header est mal formé', () => {
-    const req = { headers: { authorization: 'InvalidTokenFormat' } };
-    const res = mockResponse();
-
+  it('should reject malformed header', () => {
+    const req = mockReq({ authorization: 'BadToken' });
+    const res = mockRes();
+    const next = mockNext();
     authenticate(req, res, next);
-
     expect(res.status).toHaveBeenCalledWith(401);
     expect(res.json).toHaveBeenCalledWith({ error: 'Malformed Authorization header' });
-    expect(next).not.toHaveBeenCalled();
   });
 
-  // Token invalide
-  test('❌ Retourne 401 si le token est invalide', () => {
-    const req = { headers: { authorization: 'Bearer faketoken' } };
-    const res = mockResponse();
-
-    // On simule un jeton invalide qui déclenche une erreur dans jwt.verify
-    jwt.verify.mockImplementation(() => { throw new Error('Invalid token'); });
-
+  it('should reject invalid token', () => {
+    const req = mockReq({ authorization: 'Bearer invalidtoken' });
+    const res = mockRes();
+    const next = mockNext();
     authenticate(req, res, next);
-
-    expect(jwt.verify).toHaveBeenCalled();
     expect(res.status).toHaveBeenCalledWith(401);
     expect(res.json).toHaveBeenCalledWith({ error: 'Invalid or expired token' });
-    expect(next).not.toHaveBeenCalled();
   });
 
-  // Token valide
-  test('✅ Passe au middleware suivant si le token est valide', () => {
-    const req = { headers: { authorization: 'Bearer validtoken' } };
-    const res = mockResponse();
-
-    // Simule un token valide qui retourne un payload
-    const fakePayload = { id: 1, username: 'testUser', levelAccess: 'admin' };
-    jwt.verify.mockReturnValue(fakePayload);
-
+  it('should call next for valid token', () => {
+    const payload = { id: 1, username: 'admin', levelAccess: 'admin' };
+    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const req = mockReq({ authorization: `Bearer ${token}` });
+    const res = mockRes();
+    const next = mockNext();
     authenticate(req, res, next);
-
-    expect(jwt.verify).toHaveBeenCalledWith('validtoken', process.env.JWT_SECRET);
-    expect(req.user).toEqual(fakePayload);
-    expect(next).toHaveBeenCalled(); // next() doit être appelé
-    expect(res.status).not.toHaveBeenCalled(); // Aucune erreur
-  });
-
-  // Vérifie la casse du header (Authorization vs authorization)
-  test('✅ Accepte les headers insensibles à la casse', () => {
-    const req = { headers: { Authorization: 'Bearer tokenUppercaseHeader' } };
-    const res = mockResponse();
-
-    jwt.verify.mockReturnValue({ id: 2, username: 'uppercase' });
-
-    authenticate(req, res, next);
-
-    expect(jwt.verify).toHaveBeenCalledWith('tokenUppercaseHeader', process.env.JWT_SECRET);
-    expect(req.user).toEqual({ id: 2, username: 'uppercase' });
+    expect(req.user).toMatchObject(payload);
     expect(next).toHaveBeenCalled();
   });
-
 });

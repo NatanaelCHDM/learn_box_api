@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const machinesController = require('../controllers/machinesController');
+const authenticate = require('../middlewares/authenticate');
 
 // Documentation Swagger : groupe "Machines"
 /**
@@ -82,6 +83,8 @@ router.get('/:id', machinesController.getMachine);
  *   patch:
  *     summary: Met à jour les informations d’une machine
  *     tags: [Machines]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -124,6 +127,8 @@ router.patch('/:id', machinesController.updateMachine);
  *   delete:
  *     summary: Supprime une machine du système
  *     tags: [Machines]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -149,6 +154,8 @@ router.delete('/:id', machinesController.deleteMachine);
  *     summary: Vérifie l’accès d’un utilisateur à une machine
  *     tags: [Machines]
  *     description: Vérifie si l’utilisateur connecté dispose des droits suffisants pour accéder à la machine.
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id

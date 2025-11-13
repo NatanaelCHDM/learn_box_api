@@ -1,27 +1,25 @@
-const request = require('supertest');
-const express = require('express');
-const adressesRouter = require('../src/routes/adresses');
+const axios = require('axios');
+const { searchAdresse } = require('../src/services/adresseService');
 
-// Création d'une app Express test
-const app = express();
-app.use('/v1/adresses', adressesRouter);
+jest.mock('axios');
 
-// Test principal : endpoint GET /v1/adresses
-describe('GET /v1/adresses', () => {
-  it('devrait retourner 400 si q est manquant', async () => {
-    const res = await request(app).get('/v1/adresses');
-    expect(res.statusCode).toBe(400);
-    expect(res.body.error).toBe('Paramètre "q" manquant');
+describe('adresseService', () => {
+  it('should throw error if query missing', async () => {
+    await expect(searchAdresse()).rejects.toThrow('Query is required');
   });
 
-  it('devrait retourner un tableau d’adresses pour une recherche valide', async () => {
-    const res = await request(app).get('/v1/adresses').query({ q: '10 rue de Paris' });
-    expect(res.statusCode).toBe(200);
-    expect(Array.isArray(res.body)).toBe(true);
-    if (res.body.length > 0) {
-      expect(res.body[0]).toHaveProperty('geometry');
-      expect(res.body[0]).toHaveProperty('properties');
-      expect(res.body[0].properties).toHaveProperty('label');
-    }
+  it('should return results from API', async () => {
+    const mockData = { features: [{ id: 1, properties: { label: 'Paris' } }] };
+    axios.get.mockResolvedValue({ data: mockData });
+    const result = await searchAdresse('Paris');
+    expect(result).toEqual(mockData.features);
+    expect(axios.get).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
+      params: { q: 'Paris', limit: 5 }
+    }));
+  });
+
+  it('should throw error on axios failure', async () => {
+    axios.get.mockRejectedValue(new Error('Network error'));
+    await expect(searchAdresse('Paris')).rejects.toThrow('Network error');
   });
 });

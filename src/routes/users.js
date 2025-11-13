@@ -53,7 +53,7 @@ const usersController = require('../controllers/usersController');
  *       400:
  *         description: Données invalides.
  */
-router.post('/', authenticate, usersController.createUser);
+router.post('/', authenticate, authorize('admin'), usersController.createUser);
 
 // -------------------------------------------------------
 // ROUTE : GET /v1/users/{id} — Lecture d’un utilisateur
@@ -81,7 +81,7 @@ router.post('/', authenticate, usersController.createUser);
  *       404:
  *         description: Utilisateur introuvable.
  */
-router.get('/:id', authenticate, usersController.getUser);
+router.get('/:id', authenticate, authorize('admin'), usersController.getUser);
 
 // -------------------------------------------------------
 // ROUTE : PATCH /v1/users/{id} — Modification d’un utilisateur
@@ -126,7 +126,7 @@ router.get('/:id', authenticate, usersController.getUser);
  *       404:
  *         description: Utilisateur introuvable.
  */
-router.patch('/:id', authenticate, usersController.updateUser);
+router.patch('/:id', authenticate, authorize('admin'), usersController.updateUser);
 
 // -------------------------------------------------------
 // ROUTE : DELETE /v1/users/{id} — Suppression d’un utilisateur

@@ -34,7 +34,6 @@ function saveDB(data) {
 // --- Génération ID auto-incrémenté
 function generateUserId(users) {
   if (users.length === 0) return 1;
-  // Récupère le plus grand ID existant
   const maxId = users.reduce((max, u) => (u.id > max ? u.id : max), 0);
   return maxId + 1;
 }
@@ -45,28 +44,38 @@ function generateUserId(users) {
 exports.register = async (req, res) => {
   try {
     const { username, password } = req.body;
-    if (!username || !password) return res.status(400).json({ error: 'Username et mot de passe requis' });
+
+    // Vérification des champs
+    if (!username || !password)
+      return res.status(400).json({ error: 'Username et mot de passe requis' });
+
+    // Vérifie la longueur minimale du mot de passe
+    if (password.length < 8)
+      return res.status(400).json({ error: 'Le mot de passe doit contenir au moins 8 caractères' });
 
     const data = loadDB();
 
+    // Vérifie si le nom d’utilisateur existe déjà
     if (data.users.find(u => u.username === username)) {
-      return res.status(400).json({ error: 'Utilisateur déjà existant' });
+      return res.status(409).json({ error: 'Utilisateur déjà existant' });
     }
 
+    // Hash du mot de passe
     const passwordHash = await bcrypt.hash(password, saltRounds);
 
     // Génération d'un ID unique auto-incrémenté
     let newId = generateUserId(data.users);
-    while (data.users.find(u => u.id === newId)) {
-      newId++; // sécurité supplémentaire pour éviter collision
-    }
+    while (data.users.find(u => u.id === newId)) newId++; // sécurité
 
     const newUser = { id: newId, username, password: passwordHash, levelAccess: 'user' };
 
     data.users.push(newUser);
     saveDB(data);
 
-    res.status(201).json({ message: 'Utilisateur créé avec succès', user: { id: newUser.id, username: newUser.username, levelAccess: newUser.levelAccess } });
+    res.status(201).json({
+      message: 'Utilisateur créé avec succès',
+      user: { id: newUser.id, username: newUser.username, levelAccess: newUser.levelAccess }
+    });
   } catch (err) {
     console.error('❌ Erreur register :', err);
     res.status(500).json({ error: 'Erreur interne du serveur' });
@@ -79,10 +88,13 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const { username, password } = req.body;
-    if (!username || !password) return res.status(400).json({ error: 'Username et mot de passe requis' });
+
+    if (!username || !password)
+      return res.status(400).json({ error: 'Username et mot de passe requis' });
 
     const data = loadDB();
     const user = data.users.find(u => u.username === username);
+
     if (!user) return res.status(401).json({ error: 'Utilisateur non trouvé' });
 
     const valid = await bcrypt.compare(password, user.password);
@@ -108,7 +120,11 @@ exports.refresh = (req, res) => {
 
   try {
     const payload = jwt.verify(refreshToken, jwtSecret);
-    const accessToken = jwt.sign({ id: payload.id, username: payload.username, levelAccess: payload.levelAccess }, jwtSecret, { expiresIn: accessExpire });
+    const accessToken = jwt.sign(
+      { id: payload.id, username: payload.username, levelAccess: payload.levelAccess },
+      jwtSecret,
+      { expiresIn: accessExpire }
+    );
     res.json({ accessToken });
   } catch (err) {
     console.error('❌ Erreur refresh :', err);
