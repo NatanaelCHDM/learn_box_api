@@ -1,7 +1,3 @@
-// ========================================================
-// authsController.js — Logique métier pour l'authentification
-// ========================================================
-
 require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
