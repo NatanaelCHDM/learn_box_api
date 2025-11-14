@@ -1,11 +1,17 @@
 const fs = require('fs');
-const path = require('path');
 const bcrypt = require('bcrypt');
 const usersController = require('../src/controllers/usersController');
 
-const filePath = path.join(__dirname, '../src/data/db.json');
+// 🔹 FAUSSE DB EN MEMOIRE
+let mockDB = { users: [] };
 
-// Mock res object
+// 🔹 MOCK FS pour les tests
+jest.spyOn(fs, 'readFileSync').mockImplementation(() => JSON.stringify(mockDB));
+jest.spyOn(fs, 'writeFileSync').mockImplementation((path, data) => {
+  mockDB = JSON.parse(data);
+});
+
+// 🔹 Fonction utilitaire pour simuler res
 function mockRes() {
   const res = {};
   res.status = jest.fn().mockReturnValue(res);
@@ -14,9 +20,9 @@ function mockRes() {
   return res;
 }
 
-// Reset db.json before each test
+// 🔹 Réinitialise la fausse DB avant chaque test
 beforeEach(() => {
-  fs.writeFileSync(filePath, JSON.stringify({ users: [] }, null, 2));
+  mockDB = { users: [] };
 });
 
 describe('usersController', () => {
@@ -38,10 +44,9 @@ describe('usersController', () => {
         expect.objectContaining({ id: 1, username: 'test', levelAccess: 'user' })
       );
 
-      // Check password is hashed in db
-      const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-      expect(data.users[0].password).not.toBe('12345678');
-      const valid = await bcrypt.compare('12345678', data.users[0].password);
+      // Vérifie que le mot de passe est bien hashé
+      expect(mockDB.users[0].password).not.toBe('12345678');
+      const valid = await bcrypt.compare('12345678', mockDB.users[0].password);
       expect(valid).toBe(true);
     });
 
@@ -53,7 +58,7 @@ describe('usersController', () => {
       const req2 = { body: { username: 'test', password: '87654321' } };
       const res2 = mockRes();
       await usersController.createUser(req2, res2);
-      expect(res2.status).toHaveBeenCalledWith(400);
+      expect(res2.status).toHaveBeenCalledWith(409);
       expect(res2.json).toHaveBeenCalledWith({ error: 'Utilisateur déjà existant' });
     });
   });
@@ -67,9 +72,8 @@ describe('usersController', () => {
       expect(res.json).toHaveBeenCalledWith({ error: 'user not found' });
     });
 
-    it('should return user without password', async () => {
-      const data = { users: [{ id: 1, username: 'test', password: 'hashed', levelAccess: 'user' }] };
-      fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+    it('should return user without password', () => {
+      mockDB = { users: [{ id: 1, username: 'test', password: 'hashed', levelAccess: 'user' }] };
 
       const req = { params: { id: 1 } };
       const res = mockRes();
@@ -87,16 +91,15 @@ describe('usersController', () => {
     });
 
     it('should update user and hash new password', async () => {
-      const data = { users: [{ id: 1, username: 'old', password: await bcrypt.hash('oldpass', 10), levelAccess: 'user' }] };
-      fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+      const hashedOld = await bcrypt.hash('oldpass', 10);
+      mockDB = { users: [{ id: 1, username: 'old', password: hashedOld, levelAccess: 'user' }] };
 
       const req = { params: { id: 1 }, body: { password: 'newpass123', levelAccess: 'admin' } };
       const res = mockRes();
       await usersController.updateUser(req, res);
       expect(res.json).toHaveBeenCalledWith(expect.objectContaining({ username: 'old', levelAccess: 'admin' }));
 
-      const db = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-      const valid = await bcrypt.compare('newpass123', db.users[0].password);
+      const valid = await bcrypt.compare('newpass123', mockDB.users[0].password);
       expect(valid).toBe(true);
     });
   });
@@ -110,8 +113,7 @@ describe('usersController', () => {
     });
 
     it('should delete user successfully', () => {
-      const data = { users: [{ id: 1, username: 'test', password: 'hashed', levelAccess: 'user' }] };
-      fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+      mockDB = { users: [{ id: 1, username: 'test', password: 'hashed', levelAccess: 'user' }] };
 
       const req = { params: { id: 1 }, user: { username: 'admin' } };
       const res = mockRes();
@@ -121,8 +123,7 @@ describe('usersController', () => {
         message: `L'utilisateur "test" a été supprimé par "admin".`
       });
 
-      const db = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-      expect(db.users.length).toBe(0);
+      expect(mockDB.users.length).toBe(0);
     });
   });
 });

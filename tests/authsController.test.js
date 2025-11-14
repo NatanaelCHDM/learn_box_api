@@ -1,11 +1,18 @@
 const fs = require('fs');
-const path = require('path');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const authController = require('../src/controllers/authsController');
 
-const filePath = path.join(__dirname, '../src/data/db.json');
+// 🔹 FAUSSE DB EN MEMOIRE
+let mockDB = { users: [] };
 
+// 🔹 MOCK FS pour les tests
+jest.spyOn(fs, 'readFileSync').mockImplementation(() => JSON.stringify(mockDB));
+jest.spyOn(fs, 'writeFileSync').mockImplementation((path, data) => {
+  mockDB = JSON.parse(data);
+});
+
+// 🔹 Fonction utilitaire pour simuler res
 function mockRes() {
   const res = {};
   res.status = jest.fn().mockReturnValue(res);
@@ -13,8 +20,9 @@ function mockRes() {
   return res;
 }
 
+// 🔹 Réinitialisation avant chaque test
 beforeEach(() => {
-  fs.writeFileSync(filePath, JSON.stringify({ users: [] }, null, 2));
+  mockDB = { users: [] };
 });
 
 describe('authsController', () => {
@@ -31,7 +39,9 @@ describe('authsController', () => {
       const res = mockRes();
       await authController.register(req, res);
       expect(res.status).toHaveBeenCalledWith(400);
-      expect(res.json).toHaveBeenCalledWith({ error: 'Le mot de passe doit contenir au moins 8 caractères' });
+      expect(res.json).toHaveBeenCalledWith({
+        error: 'Le mot de passe doit contenir au moins 8 caractères'
+      });
     });
 
     it('should create user successfully', async () => {
@@ -39,13 +49,11 @@ describe('authsController', () => {
       const res = mockRes();
       await authController.register(req, res);
       expect(res.status).toHaveBeenCalledWith(201);
-      const db = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-      expect(db.users[0].username).toBe('user1');
+      expect(mockDB.users[0].username).toBe('user1');
     });
 
     it('should reject duplicate username', async () => {
-      const db = { users: [{ id: 1, username: 'user1', password: 'hash', levelAccess: 'user' }] };
-      fs.writeFileSync(filePath, JSON.stringify(db, null, 2));
+      mockDB = { users: [{ id: 1, username: 'user1', password: 'hash', levelAccess: 'user' }] };
       const req = { body: { username: 'user1', password: 'anotherlong' } };
       const res = mockRes();
       await authController.register(req, res);
@@ -62,8 +70,8 @@ describe('authsController', () => {
     });
 
     it('should reject invalid username/password', async () => {
-      const db = { users: [{ id: 1, username: 'user1', password: await bcrypt.hash('mypassword', 10), levelAccess: 'user' }] };
-      fs.writeFileSync(filePath, JSON.stringify(db, null, 2));
+      const hashed = await bcrypt.hash('mypassword', 10);
+      mockDB = { users: [{ id: 1, username: 'user1', password: hashed, levelAccess: 'user' }] };
 
       const req1 = { body: { username: 'unknown', password: 'mypassword' } };
       const res1 = mockRes();
@@ -77,13 +85,15 @@ describe('authsController', () => {
     });
 
     it('should return access and refresh tokens', async () => {
-      const db = { users: [{ id: 1, username: 'user1', password: await bcrypt.hash('mypassword', 10), levelAccess: 'user' }] };
-      fs.writeFileSync(filePath, JSON.stringify(db, null, 2));
+      const hashed = await bcrypt.hash('mypassword', 10);
+      mockDB = { users: [{ id: 1, username: 'user1', password: hashed, levelAccess: 'user' }] };
 
       const req = { body: { username: 'user1', password: 'mypassword' } };
       const res = mockRes();
       await authController.login(req, res);
-      expect(res.json).toHaveBeenCalledWith(expect.objectContaining({ accessToken: expect.any(String), refreshToken: expect.any(String) }));
+      expect(res.json).toHaveBeenCalledWith(
+        expect.objectContaining({ accessToken: expect.any(String), refreshToken: expect.any(String) })
+      );
     });
   });
 
@@ -101,7 +111,9 @@ describe('authsController', () => {
       const req = { body: { refreshToken: token } };
       const res = mockRes();
       authController.refresh(req, res);
-      expect(res.json).toHaveBeenCalledWith(expect.objectContaining({ accessToken: expect.any(String) }));
+      expect(res.json).toHaveBeenCalledWith(
+        expect.objectContaining({ accessToken: expect.any(String) })
+      );
     });
   });
 

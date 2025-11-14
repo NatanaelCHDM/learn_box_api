@@ -21,6 +21,8 @@ npm install bcrypt jsonwebtoken dotenv
 npm install --save-dev jest supertest
 npm install axios
 npm install node-cache
+npm install --save-dev cross-env
+
 
 
 ```
